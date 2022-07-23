@@ -2,10 +2,10 @@ import re
 import traceback
 from nonebot.log import logger
 from nonebot.typing import T_State
-from nonebot.rule import Rule, to_me
+from nonebot.rule import Rule
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import PluginMetadata
-from nonebot import on_command, on_message, require
+from nonebot import on_command, on_message
 from nonebot.params import CommandArg, EventMessage, EventPlainText, State
 from nonebot.adapters.onebot.v11 import (
     Bot,
@@ -15,9 +15,6 @@ from nonebot.adapters.onebot.v11 import (
     MessageSegment,
 )
 
-require("nonebot_plugin_htmlrender")
-
-from .config import Config
 from .shindanmaker import make_shindan, get_shindan_title, render_shindan_list
 from .shindan_list import add_shindan, del_shindan, set_shindan, get_shindan_list
 
@@ -25,7 +22,6 @@ __plugin_meta__ = PluginMetadata(
     name="趣味占卜",
     description="使用ShindanMaker网站的趣味占卜",
     usage="发送“占卜列表”查看可用占卜\n发送“{占卜名} {名字}”使用占卜",
-    config=Config,
     extra={
         "unique_name": "shindan",
         "example": "人设生成 小Q",
@@ -34,31 +30,69 @@ __plugin_meta__ = PluginMetadata(
     },
 )
 
+__zx_plugin_name__ = "趣味占卜"
+__plugin_usage__ = """
+Usage:
+    使用ShindanMaker网站的趣味占卜
+    发送“占卜列表”查看可用占卜
+    发送“占卜名 名字”使用占卜
+    例子：
+        魔法人生 苏暖暖
+        英灵召唤
+        特殊能力@xxx
+""".strip()
+__plugin_superuser_usage__ = """
+Usage:
+    添加占卜 id 指令
+        如：添加占卜 917962 人设生成
+    删除占卜 id
+        如：删除占卜 917962
+    设置占卜 id mode
+        设置占卜输出模式：'text' 或 'image'(默认)
+        如：设置占卜 360578 text
+""".strip()
+__plugin_des__ = "使用ShindanMaker网站的趣味占卜"
+__plugin_type__ = ("好玩的",)
+__plugin_version__ = 0.3
+__plugin_cmd__ = [
+    "占卜列表",
+    "添加占卜 id 指令 [_superuser]",
+    "删除占卜 id [_superuser]",
+    "设置占卜 id mode [_superuser]",
+]
+__plugin_author__ = "migang && meetwq"
+
+__plugin_settings__ = {
+    "level": 5,
+    "default_status": True,
+    "limit_superuser": False,
+    "cmd": [],
+}
+__plugin_configs__ = {
+    "SHINDANMAKER_COOKIE": {
+        "value": "",
+        "help": "对于需要登录推特的占卜，需要设置cookie",
+        "default_value": "",
+    }
+}
+
 add_usage = """Usage:
-添加占卜 {id} {指令}
+添加占卜 id 指令
 如：添加占卜 917962 人设生成"""
 
 del_usage = """Usage:
-删除占卜 {id}
+删除占卜 id
 如：删除占卜 917962"""
 
 set_usage = """Usage:
-设置占卜 {id} {mode}
+设置占卜 id mode
 设置占卜输出模式：'text' 或 'image'(默认)
 如：设置占卜 360578 text"""
 
-cmd_sd = on_command(
-    "占卜", aliases={"shindan", "shindanmaker"}, rule=to_me(), block=True, priority=13
-)
 cmd_ls = on_command("占卜列表", aliases={"可用占卜"}, block=True, priority=13)
 cmd_add = on_command("添加占卜", permission=SUPERUSER, block=True, priority=13)
 cmd_del = on_command("删除占卜", permission=SUPERUSER, block=True, priority=13)
 cmd_set = on_command("设置占卜", permission=SUPERUSER, block=True, priority=13)
-
-
-@cmd_sd.handle()
-async def _():
-    await cmd_sd.finish(__plugin_meta__.usage)
 
 
 @cmd_ls.handle()

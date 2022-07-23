@@ -6,12 +6,8 @@ from pathlib import Path
 from bs4 import BeautifulSoup, Tag
 from typing import List, Tuple, Union
 
-from nonebot import get_driver
-from nonebot_plugin_htmlrender import html_to_pic
-
-from .config import Config
-
-shindan_config = Config.parse_obj(get_driver().config.dict())
+from utils.migang.http import html_to_pic
+from configs.config import Config
 
 tpl_path = Path(__file__).parent / "templates"
 env = jinja2.Environment(loader=jinja2.FileSystemLoader(tpl_path), enable_async=True)
@@ -33,8 +29,8 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
 }
 
-if shindan_config.shindanmaker_cookie:
-    headers["cookie"] = shindan_config.shindanmaker_cookie
+if Config.get("zhenxun_plugin_shindan", "SHINDANMAKER_COOKIE"):
+    headers["cookie"] = Config.get("zhenxun_plugin_shindan", "SHINDANMAKER_COOKIE")
 
 
 @retry
