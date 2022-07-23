@@ -29,8 +29,8 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
 }
 
-if Config.get("zhenxun_plugin_shindan", "SHINDANMAKER_COOKIE"):
-    headers["cookie"] = Config.get("zhenxun_plugin_shindan", "SHINDANMAKER_COOKIE")
+if Config.get_config("zhenxun_plugin_shindan", "SHINDANMAKER_COOKIE"):
+    headers["cookie"] = Config.get_config("zhenxun_plugin_shindan", "SHINDANMAKER_COOKIE")
 
 
 @retry
