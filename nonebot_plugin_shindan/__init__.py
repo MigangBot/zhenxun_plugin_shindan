@@ -18,17 +18,17 @@ from nonebot.adapters.onebot.v11 import (
 from .shindanmaker import make_shindan, get_shindan_title, render_shindan_list
 from .shindan_list import add_shindan, del_shindan, set_shindan, get_shindan_list
 
-__plugin_meta__ = PluginMetadata(
-    name="趣味占卜",
-    description="使用ShindanMaker网站的趣味占卜",
-    usage="发送“占卜列表”查看可用占卜\n发送“{占卜名} {名字}”使用占卜",
-    extra={
-        "unique_name": "shindan",
-        "example": "人设生成 小Q",
-        "author": "meetwq <meetwq@gmail.com>",
-        "version": "0.2.8",
-    },
-)
+# __plugin_meta__ = PluginMetadata(
+#     name="趣味占卜",
+#     description="使用ShindanMaker网站的趣味占卜",
+#     usage="发送“占卜列表”查看可用占卜\n发送“{占卜名} {名字}”使用占卜",
+#     extra={
+#         "unique_name": "shindan",
+#         "example": "人设生成 小Q",
+#         "author": "meetwq <meetwq@gmail.com>",
+#         "version": "0.2.8",
+#     },
+# )
 
 __zx_plugin_name__ = "趣味占卜"
 __plugin_usage__ = """
