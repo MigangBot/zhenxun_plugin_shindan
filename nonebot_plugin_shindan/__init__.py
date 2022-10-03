@@ -5,8 +5,8 @@ from nonebot.typing import T_State
 from nonebot.rule import Rule
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import PluginMetadata
-from nonebot import on_command, on_message
-from nonebot.params import CommandArg, EventMessage, EventPlainText, State
+from nonebot import on_command, on_message, require
+from nonebot.params import CommandArg, EventMessage, EventPlainText
 from nonebot.adapters.onebot.v11 import (
     Bot,
     MessageEvent,
@@ -22,11 +22,12 @@ from .shindan_list import add_shindan, del_shindan, set_shindan, get_shindan_lis
 #     name="趣味占卜",
 #     description="使用ShindanMaker网站的趣味占卜",
 #     usage="发送“占卜列表”查看可用占卜\n发送“{占卜名} {名字}”使用占卜",
+#     config=Config,
 #     extra={
 #         "unique_name": "shindan",
 #         "example": "人设生成 小Q",
 #         "author": "meetwq <meetwq@gmail.com>",
-#         "version": "0.2.8",
+#         "version": "0.2.9",
 #     },
 # )
 
@@ -179,9 +180,9 @@ def sd_handler() -> Rule:
     async def handle(
         bot: Bot,
         event: MessageEvent,
+        state: T_State,
         msg: Message = EventMessage(),
         msg_text: str = EventPlainText(),
-        state: T_State = State(),
     ) -> bool:
         async def get_name(command: str) -> str:
             name = ""
@@ -220,7 +221,7 @@ sd_matcher = on_message(sd_handler(), priority=13)
 
 
 @sd_matcher.handle()
-async def _(state: T_State = State()):
+async def _(state: T_State):
     id: str = state["id"]
     name: str = state["name"]
     mode: str = state["mode"]
