@@ -27,7 +27,7 @@ from .shindan_list import add_shindan, del_shindan, set_shindan, get_shindan_lis
 #         "unique_name": "shindan",
 #         "example": "人设生成 小Q",
 #         "author": "meetwq <meetwq@gmail.com>",
-#         "version": "0.2.9",
+#         "version": "0.2.10",
 #     },
 # )
 
